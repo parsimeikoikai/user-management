@@ -62,6 +62,8 @@ This will start the application on the default port (3000).
 
 ## API Endpoints
 
+### Webohook API
+
 POST /webhook
 
 Description: This endpoint processes incoming webhook requests. It validates the authorization token, stores the incoming message in Firebase, applies rate limiting, and responds with an appropriate message based on the content.
@@ -70,18 +72,55 @@ Description: This endpoint processes incoming webhook requests. It validates the
 POST /webhook
 Authorization: Bearer <WEBHOOK_SECRET>
 Content-Type: application/json
-
 {
   "message": "Your message here",
   "phone": "1234567890"
 }
 ```
-•	Authorization Header: The Bearer <SECRET_TOKEN> is used to authenticate the request.
+•	Authorization Header: The Bearer <WEBHOOK_SECRET> is used to authenticate the request.
 ### Body:
 - message: The message sent via the webhook.
 - phone: The phone number from which the message is sent.
 
+### User Endpoints
+POST /users
 
+Creates a new user in the system.
+
+```env
+POST /users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "phone": "735-835-9479"
+}
+```
+GET /users/:id
+
+Retrieves a user by their ID.
+
+```env
+GET /users/12345
+```
+PATCH /users/:id
+
+Updates a user's details.
+```env
+PATCH /users/12345
+Content-Type: application/json
+
+{
+  "name": "John Doe Updated"
+}
+```
+GET /users
+
+Retrieves a paginated list of users.
+```env
+GET /users?page=1&limit=10
+```
 ## Design Decisions
 
 1. Secret Token Authentication
