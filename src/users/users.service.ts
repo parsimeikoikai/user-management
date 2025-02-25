@@ -41,18 +41,35 @@ export class UserService {
 
     return { id: userRef.id };
   }
-  async getUsers(page: number, limit: number) {
+  async getUsers(limit: number, cursor: string | null) {
     const db = this.firebaseService.getFirestore();
     const usersCollection = db.collection('users');
 
-    const snapshot = await usersCollection
-      .orderBy('name')
-      .offset((page - 1) * limit)
-      .limit(limit)
-      .get();
+    let query = usersCollection.orderBy('name').limit(limit);
 
-    const users = snapshot.docs.map((doc) => doc.data());
-    return users;
+    if (cursor) {
+      const snapshot = await usersCollection.doc(cursor).get();
+      if (snapshot.exists) {
+        query = query.startAfter(snapshot);
+      }
+    }
+
+    const snapshot = await query.get();
+
+    const users = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const nextCursor =
+      snapshot.docs.length > 0
+        ? snapshot.docs[snapshot.docs.length - 1].id
+        : null;
+
+    return {
+      users,
+      nextCursor,
+    };
   }
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     const db = this.firebaseService.getFirestore();

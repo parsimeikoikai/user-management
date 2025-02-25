@@ -119,8 +119,14 @@ GET /users
 
 Retrieves a paginated list of users.
 ```env
-GET /users?page=1&limit=10
+GET /users?limit=10
 ```
+or using a cursor for pagination 
+
+```env
+GET /users?limit=10&cursor=<lastUserId>
+```
+
 ## Design Decisions
 
 1. Secret Token Authentication

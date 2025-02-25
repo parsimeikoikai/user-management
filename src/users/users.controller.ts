@@ -45,9 +45,10 @@ export class UsersController {
   }
   @Get()
   async getUsers(@Query() query: GetUsersDto) {
-    const page = query.page ?? 1;
-    const limit = query.limit ?? 10;
-    const users = await this.userService.getUsers(page, limit);
+    const limit = Number(query.limit) || 10;
+    const cursor = query.cursor ?? null;
+
+    const users = await this.userService.getUsers(limit, cursor);
     return users;
   }
 }

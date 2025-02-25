@@ -1,15 +1,13 @@
+import { IsOptional, IsString, IsInt, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Min } from 'class-validator';
 
 export class GetUsersDto {
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page?: number = 1;
+  @IsString()
+  cursor?: string; // The last document's ID from the previous page
 
   @IsOptional()
-  @Type(() => Number)
+  @Type(() => Number) // Ensures transformation from string to number
   @IsInt()
   @Min(1)
   limit?: number = 10;
