@@ -4,10 +4,10 @@ import { Type } from 'class-transformer';
 export class GetUsersDto {
   @IsOptional()
   @IsString()
-  cursor?: string; // The last document's ID from the previous page
+  cursor?: string; 
 
   @IsOptional()
-  @Type(() => Number) // Ensures transformation from string to number
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   limit?: number = 10;
