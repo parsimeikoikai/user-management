@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class GetUsersDto {
   @IsOptional()
   @IsString()
-  cursor?: string; 
+  cursor?: string;
 
   @IsOptional()
   @Type(() => Number)
